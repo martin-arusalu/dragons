@@ -1,0 +1,142 @@
+[
+  {
+    "knight": {
+      "attack": 0,
+      "armor": 7,
+      "agility": 7,
+      "endurance": 6
+    },
+    "dragon": {
+      "scaleThickness": 0,
+      "fireBreath": 4,
+      "clawSharpness": 6,
+      "wingStrength": 10
+    }
+  },
+  {
+    "knight": {
+      "attack": 6,
+      "armor": 6,
+      "agility": 2,
+      "endurance": 6
+    },
+    "dragon": {
+      "scaleThickness": 3,
+      "fireBreath": 3,
+      "clawSharpness": 10,
+      "wingStrength": 4
+    }
+  },
+  {
+    "knight": {
+      "attack": 5,
+      "armor": 3,
+      "agility": 4,
+      "endurance": 8
+    },
+    "dragon": {
+      "scaleThickness": 4,
+      "fireBreath": 10,
+      "clawSharpness": 2,
+      "wingStrength": 4
+    }
+  },
+  {
+    "knight": {
+      "attack": 0,
+      "armor": 4,
+      "agility": 8,
+      "endurance": 8
+    },
+    "dragon": {
+      "scaleThickness": 0,
+      "fireBreath": 6,
+      "clawSharpness": 4,
+      "wingStrength": 10
+    }
+  },
+  {
+    "knight": {
+      "attack": 8,
+      "armor": 0,
+      "agility": 7,
+      "endurance": 5
+    },
+    "dragon": {
+      "scaleThickness": 10,
+      "fireBreath": 4,
+      "clawSharpness": 0,
+      "wingStrength": 6
+    }
+  },
+  {
+    "knight": {
+      "attack": 1,
+      "armor": 5,
+      "agility": 8,
+      "endurance": 6
+    },
+    "dragon": {
+      "scaleThickness": 0,
+      "fireBreath": 4,
+      "clawSharpness": 6,
+      "wingStrength": 10
+    }
+  },
+  {
+    "knight": {
+      "attack": 5,
+      "armor": 5,
+      "agility": 2,
+      "endurance": 8
+    },
+    "dragon": {
+      "scaleThickness": 4,
+      "fireBreath": 10,
+      "clawSharpness": 4,
+      "wingStrength": 2
+    }
+  },
+  {
+    "knight": {
+      "attack": 4,
+      "armor": 6,
+      "agility": 8,
+      "endurance": 2
+    },
+    "dragon": {
+      "scaleThickness": 3,
+      "fireBreath": 1,
+      "clawSharpness": 6,
+      "wingStrength": 10
+    }
+  },
+  {
+    "knight": {
+      "attack": 7,
+      "armor": 4,
+      "agility": 2,
+      "endurance": 7
+    },
+    "dragon": {
+      "scaleThickness": 4,
+      "fireBreath": 10,
+      "clawSharpness": 2,
+      "wingStrength": 4
+    }
+  },
+  {
+    "knight": {
+      "attack": 7,
+      "armor": 0,
+      "agility": 6,
+      "endurance": 7
+    },
+    "dragon": {
+      "scaleThickness": 4,
+      "fireBreath": 10,
+      "clawSharpness": 0,
+      "wingStrength": 6
+    }
+  }
+]
