@@ -138,5 +138,75 @@
       "clawSharpness": 0,
       "wingStrength": 6
     }
+  },
+  {
+    "knight": {
+      "attack": 5,
+      "armor": 1,
+      "agility": 8,
+      "endurance": 6
+    },
+    "dragon": {
+      "scaleThickness": 4,
+      "fireBreath": 4,
+      "clawSharpness": 2,
+      "wingStrength": 10
+    }
+  },
+  {
+    "knight": {
+      "attack": 5,
+      "armor": 3,
+      "agility": 7,
+      "endurance": 5
+    },
+    "dragon": {
+      "scaleThickness": 3,
+      "fireBreath": 3,
+      "clawSharpness": 4,
+      "wingStrength": 10
+    }
+  },
+  {
+    "knight": {
+      "attack": 4,
+      "armor": 6,
+      "agility": 6,
+      "endurance": 4
+    },
+    "dragon": {
+      "scaleThickness": 2,
+      "fireBreath": 2,
+      "clawSharpness": 6,
+      "wingStrength": 10
+    }
+  },
+  {
+    "knight": {
+      "attack": 8,
+      "armor": 8,
+      "agility": 2,
+      "endurance": 2
+    },
+    "dragon": {
+      "scaleThickness": 6,
+      "fireBreath": 1,
+      "clawSharpness": 10,
+      "wingStrength": 3
+    }
+  },
+  {
+    "knight": {
+      "attack": 7,
+      "armor": 7,
+      "agility": 5,
+      "endurance": 1
+    },
+    "dragon": {
+      "scaleThickness": 4,
+      "fireBreath": 0,
+      "clawSharpness": 10,
+      "wingStrength": 6
+    }
   }
 ]
