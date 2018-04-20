@@ -67,6 +67,7 @@ const generateDragons = () => {
 const init = async () => {
   await generateDragons();
   await generateWinners(10);
+  console.log('done');
 }
 
 init();
