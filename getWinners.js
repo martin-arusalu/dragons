@@ -1,5 +1,14 @@
+
 let winners = [];
 let dragons = [];
+
+const fetchOldWinners = async () => {
+  await fetch('https://raw.githubusercontent.com/martin-arusalu/dragons/master/winners.json')
+    .then(response => response.json())
+    .then(response => {
+      winners = response;
+    })
+}
 
 const sendDragon = async (dragon, gameId) => {
   let finalResult;
@@ -65,8 +74,9 @@ const generateDragons = () => {
 }
 
 const init = async () => {
+  await fetchOldWinners();
   await generateDragons();
-  await generateWinners(10);
+  await generateWinners(890);
   console.log('done');
 }
 
