@@ -62,15 +62,22 @@ const generateWinners = async num => {
         };
         console.log(knight);
         let exist = false;
-        winners.forEach(winner => {
+        for (let winner of winners) {
           if (winner.knight.attack === knight.attack &&
             winner.knight.armor === knight.armor &&
             winner.knight.agility === knight.agility &&
             winner.knight.endurance === knight.endurance) {
             console.log('found duplicate');
-            exist = true;
+            let result = await sendDragon(winner.dragon, game.gameId);
+            if (result) {
+              exist = true;
+              console.log('still winning!');
+            } else {
+              winners.splice(winners.indexOf(winner), 1);
+            }
+            break;
           }
-        });
+        };
         if (!exist) {
           console.log('finding winning dragon');
           for (let dragon of dragons) {
