@@ -39,7 +39,7 @@ const generateWinners = async num => {
           endurance: game.knight.endurance
         };
         console.log(knight);
-        const exist = false;
+        let exist = false;
         winners.forEach(winner => {
           if (winner.knight.attack === knight.attack &&
             winner.knight.armor === knight.armor &&
