@@ -38,6 +38,8 @@ const generateWinners = async num => {
           agility: game.knight.agility,
           endurance: game.knight.endurance
         };
+        console.log(knight);
+        console.log(winners.filter(winner => winner.knight == knight));
         if (winners.filter(winner => winner.knight == knight).length === 0) {
           console.log('finding winning dragon');
           for (let dragon of dragons) {
