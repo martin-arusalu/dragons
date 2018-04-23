@@ -52,11 +52,18 @@ const weatherConditions = {
 }
 let defeats = 0;
 let wins = 0;
-let results = [];
-let curGame = {};
+let fetchedWinners = [];
+
+const fetchWinners = async () => {
+  await fetch('https://raw.githubusercontent.com/martin-arusalu/dragons/master/winners.json')
+    .then(response => response.json())
+    .then(response => {
+      fetchedWinners = response;
+    })
+}
 
 const play = async (count) => {
-  if (count <= 10) {
+  if (count <= 100) {
     console.log(count);
     fetch('http://www.dragonsofmugloar.com/api/game')
       .then(response => response.json())
@@ -66,20 +73,28 @@ const play = async (count) => {
           .then(xml => (new window.DOMParser()).parseFromString(xml, "text/xml"))
           .then(async weatherXML => {
             const weather = xmlToJson(weatherXML).report;
-            const knight = game.knight;
+            const knight = {
+              attack: game.knight.attack,
+              armor: game.knight.armor,
+              agility: game.knight.agility,
+              endurance: game.knight.endurance
+            };
 
             let scaleThickness = clawSharpness = wingStrength = fireBreath = 5;
             switch (weather.code) {
               case weatherConditions.NORMAL:
-                curGame = { ...game };
-                curGame.id = count;
-                curGame.weather = weather.code;
-                curGame.dragons = [];
-                await tryAll(game.gameId);
-                scaleThickness = 2;
-                clawSharpness = 4;
-                wingStrength = 5;
-                fireBreath = 9;
+                fetchedWinners.forEach(winner => {
+                  if (winner.knight.attack === knight.attack &&
+                    winner.knight.armor === knight.armor &&
+                    winner.knight.agility === knight.agility &&
+                    winner.knight.endurance === knight.endurance
+                  ) {
+                    scaleThickness = winner.dragon.scaleThickness;
+                    clawSharpness = winner.dragon.clawSharpness;
+                    wingStrength = winner.dragon.wingStrength;
+                    fireBreath = winner.dragon.fireBreath;
+                  }
+                });
                 break;
               case weatherConditions.FLOOD:
                 scaleThickness = 1;
@@ -89,16 +104,15 @@ const play = async (count) => {
                 break;
             }
 
-            //sendDragon({ scaleThickness, fireBreath, clawSharpness, wingStrength }, game.gameId);
+            await sendDragon({ scaleThickness, fireBreath, clawSharpness, wingStrength }, game.gameId);
             play(count+1);
           });
       });
   } else {
-    console.log(JSON.stringify(results));
+    console.log('wins', wins);
+    console.log('defeats', defeats)
   }
 }
-
-play(1);
 
 const sendDragon = async (dragon, gameId) => {
   await fetch('http://www.dragonsofmugloar.com/api/game/' + gameId + '/solution', {
@@ -110,39 +124,15 @@ const sendDragon = async (dragon, gameId) => {
   })
     .then(response => response.json())
     .then(result => {
-      if (result.status === "Victory") {
-        curGame.dragons.push(dragon);
-      }
+      if (result.status === "Victory") wins++;
+      else defeats++;
+      console.log(result);
     });
 }
 
-const tryAll = async (gameId) => {
-  const dragons = generateDragons();
-  await dragons.forEach(async dragon => {
-    await sendDragon(dragon, gameId);
-  });
-  results.push(curGame);
+const init = async () => {
+  await fetchWinners();
+  play(1);
 }
 
-const generateDragons = () => {
-  let dragons = [];
-
-  for (let scaleThickness = 0; scaleThickness <= 10; scaleThickness++) {
-    for (let fireBreath = 0; fireBreath <= 10; fireBreath++) {
-      for (let clawSharpness = 0; clawSharpness <= 10; clawSharpness++) {
-        for (let wingStrength = 0; wingStrength <= 10; wingStrength++) {
-          if ((scaleThickness + fireBreath + clawSharpness + wingStrength) < 20) continue;
-          if ((scaleThickness + fireBreath + clawSharpness + wingStrength) > 20) break;
-          dragons.push({
-            scaleThickness,
-            fireBreath,
-            clawSharpness,
-            wingStrength
-          });
-        }
-      }
-    }
-  }
-
-  return dragons;
-}
+init();
