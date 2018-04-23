@@ -73,6 +73,7 @@ const generateWinners = async num => {
               exist = true;
               console.log('still winning!');
             } else {
+              console.log('loser');
               winners.splice(winners.indexOf(winner), 1);
             }
             break;
