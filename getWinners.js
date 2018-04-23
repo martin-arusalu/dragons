@@ -39,11 +39,13 @@ const generateWinners = async num => {
           endurance: game.knight.endurance
         };
         if (winners.filter(winner => winner.knight == knight).length === 0) {
-          console.log(winners);
+          console.log('finding winning dragon');
           for (let dragon of dragons) {
             let result = await sendDragon(dragon, game.gameId);
             if (result) {
+              console.log('found one');
               winners.push({ knight, dragon });
+              console.log(winners);
               break;
             }
           }
