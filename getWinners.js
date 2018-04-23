@@ -39,8 +39,17 @@ const generateWinners = async num => {
           endurance: game.knight.endurance
         };
         console.log(knight);
-        console.log(winners.filter(winner => winner.knight == knight));
-        if (winners.filter(winner => winner.knight == knight).length === 0) {
+        const exist = false;
+        winners.forEach(winner => {
+          if (winner.knight.attack === knight.attack &&
+            winner.knight.armor === knight.armor &&
+            winner.knight.agility === knight.agility &&
+            winner.knight.endurance === knight.endurance) {
+            console.log('found duplicate');
+            exist = true;
+          }
+        });
+        if (!exist) {
           console.log('finding winning dragon');
           for (let dragon of dragons) {
             let result = await sendDragon(dragon, game.gameId);
