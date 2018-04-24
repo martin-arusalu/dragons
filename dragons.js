@@ -63,7 +63,7 @@ const fetchWinners = async () => {
 }
 
 const play = async (count) => {
-  if (count <= 200) {
+  if (count <= 1000) {
     fetch('http://www.dragonsofmugloar.com/api/game')
       .then(response => response.json())
       .then(game => {
@@ -73,6 +73,7 @@ const play = async (count) => {
           .then(async weatherXML => {
             const weather = xmlToJson(weatherXML).report;
             const knight = {
+              name: game.knight.name,
               attack: game.knight.attack,
               armor: game.knight.armor,
               agility: game.knight.agility,
@@ -82,18 +83,36 @@ const play = async (count) => {
             let scaleThickness = clawSharpness = wingStrength = fireBreath = 5;
             switch (weather.code) {
               case weatherConditions.NORMAL:
+                let absoluteWinner = false;
                 for (winner of fetchedWinners) {
                   if (winner.knight.attack === knight.attack &&
                     winner.knight.armor === knight.armor &&
                     winner.knight.agility === knight.agility &&
-                    winner.knight.endurance === knight.endurance
+                    winner.knight.endurance === knight.endurance &&
+                    winner.knight.name === knight.name
                   ) {
-                    scaleThickness = winner.dragon.scaleThickness;
-                    clawSharpness = winner.dragon.clawSharpness;
-                    wingStrength = winner.dragon.wingStrength;
-                    fireBreath = winner.dragon.fireBreath;
+                    absoluteWinner = winner;
+                    break;
                   }
-                };
+                }
+                if (!absoluteWinner) {
+                  for (winner of fetchedWinners) {
+                    if (winner.knight.attack === knight.attack &&
+                      winner.knight.armor === knight.armor &&
+                      winner.knight.agility === knight.agility &&
+                      winner.knight.endurance === knight.endurance
+                    ) {
+                      absoluteWinner = winner;
+                      break;
+                    }
+                  }
+                }
+                if (absoluteWinner) {
+                  scaleThickness = winner.dragon.scaleThickness;
+                  clawSharpness = winner.dragon.clawSharpness;
+                  wingStrength = winner.dragon.wingStrength;
+                  fireBreath = winner.dragon.fireBreath;
+                }
                 break;
               case weatherConditions.FLOOD:
                 scaleThickness = 1;
@@ -103,7 +122,7 @@ const play = async (count) => {
                 break;
             }
 
-            await sendDragon({ scaleThickness, fireBreath, clawSharpness, wingStrength }, game.gameId, knight);
+            await sendDragon({ scaleThickness, fireBreath, clawSharpness, wingStrength }, game.gameId);
             play(count+1);
           });
       });
@@ -113,7 +132,7 @@ const play = async (count) => {
   }
 }
 
-const sendDragon = async (dragon, gameId, knight) => {
+const sendDragon = async (dragon, gameId) => {
   await fetch('http://www.dragonsofmugloar.com/api/game/' + gameId + '/solution', {
     method: 'PUT',
     body: JSON.stringify({ dragon }),
@@ -126,7 +145,6 @@ const sendDragon = async (dragon, gameId, knight) => {
       if (result.status === "Victory") wins++;
       else {
         console.log(gameId);
-        console.log('knight', knight);
         console.log('dragon', dragon);
         console.log(result);
         defeats++;

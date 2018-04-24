@@ -55,6 +55,7 @@ const generateWinners = async num => {
       .then(response => response.json())
       .then(async game => {
         let knight = {
+          name: game.knight.name,
           attack: game.knight.attack,
           armor: game.knight.armor,
           agility: game.knight.agility,
@@ -67,14 +68,16 @@ const generateWinners = async num => {
             winner.knight.armor === knight.armor &&
             winner.knight.agility === knight.agility &&
             winner.knight.endurance === knight.endurance) {
-            console.log('found duplicate');
-            let result = await sendDragon(winner.dragon, game.gameId);
-            if (result) {
-              exist = true;
-              console.log('still winning!');
-            } else {
-              console.log('loser');
-              winners.splice(winners.indexOf(winner), 1);
+            if (winner.knight.name === knight.name) {
+              console.log('found duplicate');
+              let result = await sendDragon(winner.dragon, game.gameId);
+              if (result) {
+                exist = true;
+                console.log('still winning!');
+              } else {
+                console.log('loser');
+                winners.splice(winners.indexOf(winner), 1);
+              }
             }
             break;
           }
