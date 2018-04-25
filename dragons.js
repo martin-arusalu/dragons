@@ -62,8 +62,8 @@ const fetchWinners = async () => {
     })
 }
 
-const play = async (count) => {
-  if (count <= 1000) {
+const play = async (count, games) => {
+  if (count <= games) {
     fetch('http://www.dragonsofmugloar.com/api/game')
       .then(response => response.json())
       .then(game => {
@@ -122,17 +122,22 @@ const play = async (count) => {
                 break;
             }
 
-            await sendDragon({ scaleThickness, fireBreath, clawSharpness, wingStrength }, game.gameId);
-            play(count+1);
+            await sendDragon({ scaleThickness, fireBreath, clawSharpness, wingStrength }, game.gameId, knight);
+            play(count+1, games);
           });
       });
   } else {
-    console.log('wins', wins);
-    console.log('defeats', defeats)
+    let container = document.getElementById('games');
+    container.appendChild(document.createElement('h1')).innerHTML = 'Wins: ' + wins;
+    container.appendChild(document.createElement('h1')).innerHTML = 'Defeats: ' + defeats;
+    window.scrollTo({
+      top: document.documentElement.offsetHeight,
+      behavior: "smooth"
+    });
   }
 }
 
-const sendDragon = async (dragon, gameId) => {
+const sendDragon = async (dragon, gameId, knight) => {
   await fetch('http://www.dragonsofmugloar.com/api/game/' + gameId + '/solution', {
     method: 'PUT',
     body: JSON.stringify({ dragon }),
@@ -144,17 +149,38 @@ const sendDragon = async (dragon, gameId) => {
     .then(result => {
       if (result.status === "Victory") wins++;
       else {
-        console.log(gameId);
-        console.log('dragon', dragon);
-        console.log(result);
         defeats++;
       }
+      createLog(gameId, dragon, knight, result);
     });
+}
+
+const createLog = (gameId, dragon, knight, result) => {
+  let container = document.getElementById('games');
+  let game = document.createElement('div');
+  game.className = 'game';
+  game.appendChild(document.createElement('h1')).innerHTML = 'GAME: ' + gameId;
+  game.appendChild(document.createElement('p')).innerHTML = 'DRAGON: ' + JSON.stringify(dragon);
+  game.appendChild(document.createElement('p')).innerHTML = 'KNIGHT: ' + JSON.stringify(knight);
+  let resultElem = document.createElement('div');
+  if (result.status === 'Victory') {
+    resultElem.className = 'victory';
+  } else {
+    resultElem.className = 'defeat';
+  }
+  resultElem.appendChild(document.createElement('h2')).innerHTML = result.status;
+  resultElem.appendChild(document.createElement('h3')).innerHTML = result.message;
+  game.appendChild(resultElem);
+  container.appendChild(game);
+  window.scrollTo({
+    top: document.documentElement.offsetHeight,
+    behavior: "smooth"
+  });
 }
 
 const init = async () => {
   await fetchWinners();
-  play(1);
+  play(1, 100);
 }
 
 init();

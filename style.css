@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css?family=Tajawal:300,400');
+body {
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+h1 {
+  font-weight: 300;
+}
+p {
+  font-size: 18px;
+}
+#games {
+  padding: 5%;
+}
+.game {
+  padding: 3%;
+}
+.victory {
+  color: #4f9b5c;
+}
+.defeat {
+  color: #9b4f4f;
+}
